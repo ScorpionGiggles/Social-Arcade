@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCIAL ARCADE</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+
+<!-- ====== SCREEN: LOGIN ====== -->
+<div id="screen-login" class="screen active">
+    <div class="auth-box">
+        <h1>SOCIAL ARCADE</h1>
+        <p class="auth-subtitle">Enter the Arcade</p>
+        <input id="username-input" type="text" placeholder="Username" maxlength="20" autofocus>
+        <div class="color-section">
+            <label>Pick your color</label>
+            <div id="color-picker" class="color-grid"></div>
+        </div>
+        <button id="login-enter-btn" class="btn" style="margin-bottom:8px">Enter</button>
+        <div class="login-divider"><span>or quick start</span></div>
+        <button id="login-create-btn" class="btn btn-secondary" style="margin-bottom:8px">Create Room</button>
+        <div class="join-row">
+            <input id="room-code-input" type="text" placeholder="Room code" maxlength="6" style="flex:1;text-transform:uppercase">
+            <button id="login-join-btn" class="btn btn-secondary">Join</button>
+        </div>
+        <div id="login-msg" class="login-msg"></div>
+        <div id="login-rooms-list" class="rooms-list"></div>
+    </div>
+</div>
+
+<!-- ====== SCREEN: LOBBY ====== -->
+<div id="screen-lobby" class="screen">
+    <div class="lobby">
+        <div class="lobby-header">
+            <h1>SOCIAL ARCADE</h1>
+            <span id="lobby-user" class="lobby-user"></span>
+        </div>
+        <div class="lobby-section">
+            <div class="lobby-section-header">
+                <h3>Choose your world template</h3>
+            </div>
+            <div id="template-grid" class="template-grid"></div>
+            <div class="bg-color-section">
+                <span class="build-label">Background</span>
+                <div id="bg-color-picker" class="color-grid"></div>
+            </div>
+        </div>
+        <div class="lobby-section" style="margin-top:12px">
+            <div class="join-row">
+                <input id="lobby-code-input" type="text" placeholder="Enter room code to join" maxlength="6" style="flex:1;text-transform:uppercase">
+                <button id="join-room-btn" class="btn btn-secondary">Join</button>
+            </div>
+        </div>
+        <div class="lobby-section" style="margin-top:12px">
+            <div class="lobby-section-header">
+                <h3>Active Rooms</h3>
+                <button id="refresh-rooms-btn" class="btn-small">Refresh</button>
+            </div>
+            <div id="rooms-list" class="rooms-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ====== SCREEN: GAME ====== -->
+<div id="screen-game" class="screen">
+    <div class="game-header">
+        <div class="game-header-left">
+            <strong>SOCIAL ARCADE</strong>
+            <span id="room-code-display" class="room-badge"></span>
+            <span id="player-count-display" class="player-badge">0 online</span>
+        </div>
+        <div class="game-header-right">
+            <span id="game-user-display"></span>
+            <button id="leave-btn" class="btn-small btn-danger">Leave</button>
+        </div>
+    </div>
+    <div class="game-area">
+        <div class="canvas-wrapper">
+            <canvas id="game-canvas" width="800" height="600"></canvas>
+            <div id="build-tools" class="build-tools" style="display:none">
+                <span class="build-label">BUILD</span>
+                <button id="build-toggle" class="btn-small">Toggle</button>
+                <button id="build-place" class="btn-small active">Place</button>
+                <button id="build-remove" class="btn-small">Remove</button>
+                <span class="build-label">Color</span>
+                <div id="build-colors" class="color-grid-small"></div>
+            </div>
+        </div>
+        <div class="chat-panel">
+            <div class="chat-header">Chat</div>
+            <div id="chat-log" class="chat-log"></div>
+            <div class="chat-inputs">
+                <div class="chat-input-row">
+                    <input id="chat-input" type="text" placeholder="Type a message..." maxlength="200">
+                    <button id="chat-send" class="btn-small">Send</button>
+                </div>
+                <div class="chat-input-row">
+                    <input id="img-input" type="text" placeholder="Image URL..." maxlength="500">
+                    <button id="img-send" class="btn-small">Img</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if initial_user %}
+<script>window.initialUser = {{ initial_user | tojson | safe }};</script>
+{% endif %}
+<script src="/static/game.js"></script>
+</body>
+</html>
